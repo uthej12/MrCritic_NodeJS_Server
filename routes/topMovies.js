@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const TopMovies = require('../models/topMoviesModel');
 const cors = require('cors');
+var authenticate = require('../authenticate');
 
 const topMoviesRouter = express.Router();
 
@@ -22,12 +23,32 @@ topMoviesRouter.route('/')
 
 topMoviesRouter.route('/:_id')
 .get((req,res,next) => {
-    console.log(req.params);
+    //console.log(req.params);
     TopMovies.findOne(req.params)
     .then((movies) => {
         res.statusCode = 200;
         res.setHeader('Content-Type','application/json');
         res.json(movies);
+    }).catch((err) => console.log(err));
+});
+
+topMoviesRouter.route('/:_id/comments')
+.get((req,res) => {
+    TopMovies.findOne(req.params)
+    .then((movie) => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type','application/json');
+        res.json(movie.comments);
+    }).catch((err) => console.log(err));
+})
+.post(authenticate.verifyUser, (req,res) => {
+    TopMovies.findOne(req.params)
+    .then((movie) => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type','application/json');
+        movie.comments.push({comment:req.body.comment,author:req.body.author});
+        movie.save();
+        res.json(movie);
     }).catch((err) => console.log(err));
 });
 

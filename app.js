@@ -5,6 +5,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 const cors = require('cors');
+var passport = require('passport');
+var authenticate = require('./authenticate');
+var config = require('./config');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -17,13 +20,14 @@ const Theaters = require('./models/theatersModel');
 const TopIndian = require('./models/topIndianModel');
 const TopMovies = require('./models/topMoviesModel');
 const TopTv = require('./models/topTvModel');
+const User = require('./models/user');
 
-const url = 'mongodb://localhost:27017/webMiniProject'
+const url = config.mongoUrl;
 const connect = mongoose.connect(url,{useNewUrlParser:true,useFindAndModify:false});
 
 connect.then((db) => {
 
-  console.log('Sucesfully Connecte to Server');
+  console.log('Successfully Connected to Server');
 
 }).catch((err) => console.log(err));
 
@@ -38,6 +42,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(passport.initialize());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
