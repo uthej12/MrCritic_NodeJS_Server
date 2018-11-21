@@ -9,6 +9,7 @@ topIndianRouter.use(bodyParser.json());
 
 topIndianRouter.use(cors({origin: 'http://localhost:3001'}));
 
+
 topIndianRouter.route('/')
 .get((req,res,next) => {
     TopIndian.find({})

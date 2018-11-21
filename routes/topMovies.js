@@ -9,6 +9,7 @@ topMoviesRouter.use(bodyParser.json());
 
 topMoviesRouter.use(cors({origin: 'http://localhost:3001'}));
 
+
 topMoviesRouter.route('/')
 .get((req,res,next) => {
     TopMovies.find({})

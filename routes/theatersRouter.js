@@ -9,6 +9,7 @@ theatersRouter.use(bodyParser.json());
 
 theatersRouter.use(cors({origin: 'http://localhost:3001'}));
 
+
 theatersRouter.route('/')
 .get((req,res,next) => {
     Theaters.find({})

@@ -9,6 +9,7 @@ topTvRouter.use(bodyParser.json());
 
 topTvRouter.use(cors({origin: 'http://localhost:3001'}));
 
+
 topTvRouter.route('/')
 .get((req,res,next) => {
     TopTv.find({})
