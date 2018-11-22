@@ -46,7 +46,7 @@ topMoviesRouter.route('/:_id/comments')
     .then((movie) => {
         res.statusCode = 200;
         res.setHeader('Content-Type','application/json');
-        movie.comments.push({comment:req.body.comment,author:req.body.author});
+        movie.comments.push({author:req.user.name,comment:req.body.comment});
         movie.save();
         res.json(movie);
     }).catch((err) => console.log(err));

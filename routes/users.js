@@ -43,11 +43,27 @@ router.post('/login', passport.authenticate('local'), (req,res)=>{
 router.get('/favorites', authenticate.verifyUser, (req,res) => {
     res.json(req.user.favorites);
 })
-.post('/favorites', authenticate.verifyUser, (req,res) =>{
-  var _id = req.body._id;
-  req.user.favorites.push(_id);
-  req.user.save();
-  res.json(req.user);
+.post('/:param/favorites', authenticate.verifyUser, (req,res) =>{
+  //console.log(req.params.param);
+  if(req.params.param == 'topmovies' || req.params.param == 'topindian' || req.params.param == 'toptv'){
+    var _id = req.body._id;
+    var array = req.params.param;
+    console.log("array",array);
+    if(array == 'topmovies'){
+      req.user.favorite.push(_id);
+    }
+    else if(array == 'topindian'){
+      req.user.favoriteIndian.push(_id);
+    }
+    else if(array == 'toptv'){
+      req.user.favoritetv.push(_id);
+    }
+    req.user.save();
+    res.json(req.user); 
+  }
+  else{
+    res.json({status:"error"});
+  }
 });
 
 module.exports = router;
