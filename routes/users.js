@@ -10,8 +10,8 @@ const User = require('../models/user');
 router.use(cors({origin: 'http://localhost:3001'}));
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-    res.json({Status:'Connected'});
+router.get('/',authenticate.verifyUser, function(req, res, next) {
+    res.json(req.user);
 });
 
 router.post('/signup', (req,res,next) => {

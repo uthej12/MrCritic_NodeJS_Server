@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const TopTv = require('../models/topTvModel');
 const cors = require('cors');
+var authenticate = require('../authenticate');
 
 const topTvRouter = express.Router();
 
@@ -28,6 +29,26 @@ topTvRouter.route('/:_id')
         res.statusCode = 200;
         res.setHeader('Content-Type','application/json');
         res.json(tv);
+    }).catch((err) => console.log(err));
+});
+
+topTvRouter.route('/:_id/comments')
+.get((req,res) => {
+    TopTv.findOne(req.params)
+    .then((movie) => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type','application/json');
+        res.json(movie.comments);
+    }).catch((err) => console.log(err));
+})
+.post(authenticate.verifyUser, (req,res) => {
+    TopTv.findOne(req.params)
+    .then((movie) => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type','application/json');
+        movie.comments.push({author:req.user.name,comment:req.body.comment});
+        movie.save();
+        res.json(movie);
     }).catch((err) => console.log(err));
 });
 
