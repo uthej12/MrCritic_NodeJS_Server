@@ -15,6 +15,8 @@ var theatersRouter = require('./routes/theatersRouter');
 var topIndianRouter = require('./routes/topIndianRouter');
 var topMovies = require('./routes/topMovies');
 var topTv = require('./routes/topTv');
+var comments = require('./routes/commentsRouter');
+var favorites = require('./routes/favoritesRouter');
 
 const Theaters = require('./models/theatersModel');
 const TopIndian = require('./models/topIndianModel');
@@ -51,6 +53,8 @@ app.use('/theaters',theatersRouter);
 app.use('/topIndian',topIndianRouter);
 app.use('/topmovies',topMovies);
 app.use('/toptv',topTv);
+app.use('/comments',comments);
+app.use('/favorites',favorites);
 
 app.use(cors({origin: 'http://localhost:3001'}));
 

@@ -11,9 +11,6 @@ const UserSchema = mongoose.Schema({
         type:String,
         require:true
     },
-    favorite:[],
-    favoriteIndian:[],
-    favoritetv:[]
 });
 
 UserSchema.plugin(passportLocalMongoose);

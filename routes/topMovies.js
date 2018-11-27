@@ -32,24 +32,5 @@ topMoviesRouter.route('/:_id')
     }).catch((err) => console.log(err));
 });
 
-topMoviesRouter.route('/:_id/comments')
-.get((req,res) => {
-    TopMovies.findOne(req.params)
-    .then((movie) => {
-        res.statusCode = 200;
-        res.setHeader('Content-Type','application/json');
-        res.json(movie.comments);
-    }).catch((err) => console.log(err));
-})
-.post(authenticate.verifyUser, (req,res) => {
-    TopMovies.findOne(req.params)
-    .then((movie) => {
-        res.statusCode = 200;
-        res.setHeader('Content-Type','application/json');
-        movie.comments.push({author:req.user.name,comment:req.body.comment});
-        movie.save();
-        res.json(movie);
-    }).catch((err) => console.log(err));
-});
 
 module.exports = topMoviesRouter;
